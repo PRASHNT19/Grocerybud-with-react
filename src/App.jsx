@@ -4,9 +4,23 @@ import Items from "./components/Items";
 import { groceryItems } from "./data/groceryItems";
 import { useState } from "react";
 import "./App.css";
+import { nanoid } from "nanoid";
+import Form from "./components/Form";
+
 
 const App = () => {
   const [items, setItems] = useState(groceryItems);
+
+  const addItem = (itemName) => {
+    const newItem = {
+      name: itemName,
+      completed: false,
+      id: nanoid(),
+    };
+    const newItems = [...items, newItem];
+    setItems(newItems);
+    toast.success("grocery item added");
+  };
 
   const editCompleted = (itemId) => {
     const newItems = items.map((item) => {
@@ -27,6 +41,7 @@ const App = () => {
   return (
     <section className="section-center">
       <ToastContainer position="top-center" />
+      <Form addItem={addItem} />
       <Items
         items={items}
         editCompleted={editCompleted}
